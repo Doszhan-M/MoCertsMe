@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% load i18n %}
+
+
+{% block property %}
+<meta property="og:url" content="{{ 'url'|property }}">
+<meta property="og:image" content="{{ 'image'|property }}">
+
+<meta name="description" content="Краткое описание страницы" />
+{% endblock property%}
+
+{% block title %}
+{% trans 'Инструкции' %} | Money Certificates
+{% endblock %}
+
+{% block content %}
+<div class="watermark_kremlin"></div>
+
+<section class="manual_section">
+  <h1 class="section__title__withdrow">Подробные инструкции</h1>
+  <div class="section__decor"><img src="{% static 'img/icons/decor.svg' %}" alt=""></div>
+  <div class="manual_section__content">
+    {% for post in manuals %}
+    <h2 class="manual__title">{{post.title}}</h2>
+    <h3 class="manual__desc">{{post.description}}</h3>
+    <div class="manual__video">
+      {% autoescape off %}
+      {{post.video}}
+      {% endautoescape %}
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

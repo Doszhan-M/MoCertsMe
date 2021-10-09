@@ -1,0 +1,41 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block property %}
+<meta property="og:url" content="{{ 'url'|property }}">
+<meta property="og:image" content="{{ 'image'|property }}">
+
+<meta name="description" content="Краткое описание страницы"/>
+{% endblock property%}
+
+{% block title %}
+Recent post | Money Certificates
+{% endblock %}
+
+{% block content %}
+<div class="watermark_kremlin"></div>
+
+<div class="container mt-3"></div>
+<div class="row"></div>
+{% for post in posts %}
+<div class="card mb-3"></div>
+<div class="card-header">Категория</div>
+<div class="card-body">
+    <h5>
+        <div class="card-title">{{ post.headline }}</div>
+    </h5>
+    <div class="card-subtitle">{{ post.subtitle }}</div>
+    <!--     <a href="{% url 'postdetail' post.pk %}">Read more</a> -->
+</div>
+<div class="card-footer text muted"></div>
+{{ post.date_create }}
+
+<br>
+</div>
+<div></div>
+</div>
+{% endfor %}
+
+{% endblock %}

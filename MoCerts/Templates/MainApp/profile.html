@@ -1,0 +1,75 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+
+{% block title %}
+{% trans 'Личный кабинет' %} | Mocerts
+{% endblock %}
+
+{% block content %}
+<div class="watermark_kremlin"></div>
+<div class="profile_main">
+    <section class="third-section" style="box-shadow: 0 4px 16px #ccc;">
+        <div class="wrapper__profile">
+            <div class="profile_block">
+                <h1 class="section__title__withdrow">Мой профиль</h1>
+                <form method="POST" enctype="multipart/form-data" action="">
+                    {% csrf_token %}
+                    <div class="profile_form">
+                        <div class="form_separate">
+                            {% if user.photo %}
+                            <img src="{{ user.photo.url }}" alt="ava">
+                            {% else %}
+                            <img src="{% static 'img/profile.png' %}" alt="ava">
+                            {% endif %}
+                        </div>
+                        <div class="input__picture">
+                            <input type="file" name="photo" id="upload-photo" class="upload-photo">
+                            <label for="upload-photo" class="input__file-button">
+                                <span class="input__file-icon-wrapper"><img class="input__file-icon"
+                                        src="{% static 'img/icons/attach.svg' %}" alt="Выбрать файл" width="25"></span>
+                                <span class="input__file-button-text">Выберите фото</span>
+                            </label>
+                        </div>
+                        <div class="input__data">
+                            <table class="prof_table">
+                                <tr>
+                                    <td><input type="text" value="Имя:" readonly disabled></td>
+                                    <td>{{ form.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" value="Фамилия:" readonly disabled></td>
+                                    <td>{{ form.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" value="Email:" readonly disabled></td>
+                                    <td>{{ form.email }}</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" value="Телефон:" readonly disabled></td>
+                                    <td>{{ form.phone }}</td>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" value="Баланс:" readonly disabled></td>
+                                    <td><input type="text" value="{{ user.balance }}$" readonly disabled></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="prof__buttons">
+                            <button type="submit" class="prof_btn">Сохранить</button>
+                            <a href="{% url 'account_logout' %}"><button type="button"
+                                    class="prof_btn">Выйти</button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/profile.js' %}"></script>
+{% endblock script %}

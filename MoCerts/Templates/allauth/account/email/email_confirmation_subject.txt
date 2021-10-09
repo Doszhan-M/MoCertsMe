@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Добро пожаловать на наш сайт Mocerts.com{% endblocktrans %}
+{% endautoescape %}

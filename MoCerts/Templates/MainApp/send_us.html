@@ -1,0 +1,35 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block property %}
+<meta property="og:url" content="{{ 'url'|property }}">
+<meta property="og:image" content="{{ 'image'|property }}">
+
+<meta name="description" content="Краткое описание страницы" />
+{% endblock property%}
+
+{% block title %}
+Написать нам | Money Certificates
+{% endblock %}
+
+{% block content %}
+
+<div class="watermark_kremlin"></div>
+<section class="contact_form">
+  <form class="decor" method="POST">
+    {% csrf_token %}
+    <div class="form-left-decoration"></div>
+    <div class="form-right-decoration"></div>
+    <div class="circle"></div>
+    <div class="form-inner">
+      <h3>Написать нам</h3>
+      {{ form.username }}
+      {{ form.email }}
+      {{ form.text }}
+      <input type="submit" value="Отправить"> 
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+
+{% block property %}
+<meta property="og:url" content="{{ host }}{{ certificate.certificate_image.url }}">
+<meta property="og:image" content="{{ host }}{{ certificate.certificate_image.url }}">
+
+<meta name="description" content="Краткое описание страницы"/>
+{% endblock property%}
+
+{% block title %}
+{% trans 'Сертификат' %} | Money Certificates
+{% endblock %}
+
+{% block content %}
+<div class="watermark_kremlin"></div>
+{% if not need_pay %}
+      <section class="cert__section">
+            <div class="certs-wrapper">
+                  <p class="section__title paid_cert"><span>{% trans 'Сертификат оплачен' %}</span></p>
+                  <div class="certificates">
+                        <img src="{{ certificate.certificate_image.url }}" alt="">
+                  </div>
+            </div>
+      </section>
+
+      {% elif need_pay and owner_is_here and creator_is_here and not is_prepaid %}
+      <section class="cert__section">
+            <div class="certs__wrapper_url">
+                  <p class="section__title"><span>Скопируйте ссылку для отправки или поделитесь в соц сетях</span></p><br>
+                  <div class="copy_url">
+                        <p id="certificate_url" class="certificate_url">{{ certificate.url }}</p>
+                        <button class="cert_url_btn" title="СКОПИРОВАТЬ ССЫЛКУ"
+                              onclick="copyToClipboard('#certificate_url')">📝 СКОПИРОВАТЬ ССЫЛКУ
+                        </button>
+                  </div>
+                  <script>
+                        function copyToClipboard(element) {
+                              var $temp = $("<input>");
+                              $("body").append($temp);
+                              $temp.val($(element).text()).select();
+                              document.execCommand("copy");
+                              $temp.remove();
+                        }
+                  </script>
+                  <div class="ya-share2" data-curtain data-shape="round"
+                        data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,moimir,linkedin">
+                  </div>
+                  <div class="one-cert">
+                        <img src="{{ certificate.certificate_image.url }}" alt="certificate">
+                  </div>
+            </div>
+      </section>
+
+      {% elif need_pay and not is_prepaid %}
+      <section class="third-section">
+            <div class="wrapper__certs">
+                  <h1 class="section__title__withdrow">Поздравляем <b>{{ user.first_name }} !</b></h1>
+                  <div class="section__t"><img src="{% static 'img/icons/decor.svg' %}" alt=""></div>
+                  <p class="wrapper__certs-text">Вы получили новый сертификат. Теперь, что бы активировать его и получить пять
+                        своих сертификатов с Вашим именем на третьей строчке нажмите на кнопку перевести. После чего сумма в <b>
+                        {{ certificate.nominal }}$</b> будет переведена пользователю с именем
+                        <b>{{ certificate.user1.first_name }}&nbsp;{{ certificate.user1.last_name }}</b>, так как это
+                        имя расположено на первой строчке. Убедитесь, что на Вашем балансе достаточно средств!
+                  </p>
+                  <div class="one-cert_pay">
+                        <img src="{{ certificate.certificate_image.url }}" alt="certificate">
+                  </div>
+                  <a href="{% url 'pay_certificate' pk=certificate.pk %}" class="trans__button button"
+                        title="Перевести {{ certificate.nominal }}$ пользователю по имени {{ certificate.user1.first_name }} 
+                        {{ certificate.user1.last_name }}">
+                        <span class="button__text">Перевести</span>
+                        <span class="button__transfer">{{ certificate.nominal }}$</span>
+                  </a>
+            </div>
+      </section>
+
+      {% elif need_pay and is_prepaid %}
+      <section class="third-section">
+            <div class="wrapper__certs">
+                  <h1 class="section__title__withdrow">Поздравляем <b>{{ user.first_name }} !</b></h1>
+                  <div class="section__t"><img src="{% static 'img/icons/decor.svg' %}" alt=""></div>
+                  <p class="wrapper__certs-text">Вы получили предоплаченный сертификат. Теперь, что бы активировать его и получить пять
+                        своих сертификатов с Вашим именем на третьей строчке нажмите на кнопку принять.
+                  </p>
+                  <div class="one-cert_pay">
+                        <img src="{{ certificate.certificate_image.url }}" alt="certificate">
+                  </div>
+                  <a href="{% url 'pay_certificate' pk=certificate.pk %}" class="trans__button button"
+                        title="Перевести {{ certificate.nominal }}$ пользователю по имени {{ certificate.user1.first_name }} 
+                        {{ certificate.user1.last_name }}">
+                        <span class="button__text">Принять</span>
+                        <span class="button__transfer" style="font-size: 22px;">👍</span>
+                  </a>
+            </div>
+      </section>
+
+      {% endif %}
+{% endblock content %}
+
+{% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- <script src="https://yastatic.net/share2/share.js"></script> -->
+{% endblock script %}

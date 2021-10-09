@@ -1,0 +1,28 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% load i18n %}
+{% load custom_filters %}
+
+
+{% block property %}
+<meta property="og:url" content="{{ 'url'|property }}">
+<meta property="og:image" content="{{ 'image'|property }}">
+
+<meta name="description" content="Краткое описание страницы"/>
+{% endblock property%}
+
+{% block title %}
+{% trans 'Сервис не доступен' %} | Mocerts
+{% endblock %}
+
+
+{% block content %}
+<div class="watermark_kremlin"></div>
+<section class="third-section" style="height: auto;!important;">
+    <div class="certs-wrapper">
+      <p class = "section__title"><span>{% trans 'Ошибка' %}</span></p>
+      <p class="wrapper__text">На данный момент сервис не доступен, попробуйте позднее!</p>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,5 @@
+{% comment %} {% load account %} {% endcomment %}
+{% comment %} {% load i18n %} {% endcomment %}
+{% comment %} {% user_display user as name %} {% endcomment %}
+{% comment %} {% blocktrans %}Successfully signed in as {{name}}.{% endblocktrans %} {% endcomment %}
+

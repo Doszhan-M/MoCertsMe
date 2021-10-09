@@ -1,0 +1,48 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+
+
+{% block title %}
+{{ block.super }} : Вход на сайт
+{% endblock title%}
+
+{% block content %}
+<section class="third-section" style="height: auto;!important;">
+    <div class="login-wrapper">
+        <p class="section__title"><span>{% trans 'Вход' %}</span></p>
+        <p class="exit__text">Введите данные для авторизации:</p>
+        <form class="login_form" method="POST" action="{% url 'account_login' %}">
+            {% csrf_token %}
+            {% include "account/errors.html" %}
+            <p class="login__input">{{ form.login }}</p>
+            <p class="login__input">{{ form.password }}</p>
+            <br>
+            {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <div class="login_social">
+                <a href="{% provider_login_url 'google' %}">
+                    <img src="{% static 'img/google_long.png' %}" style="margin-top: 5%;" alt="google_login">
+                </a>
+                <br>
+                <a href="{% provider_login_url 'facebook' %}">
+                    <img width="260px" src="{% static 'img/fb_long.png' %}" alt="fb_login">
+                </a>
+            </div>
+            <button class="profile_btn" type="submit">
+                {%trans "Войти" %}
+            </button>
+            <br>
+            <a class="reset_password" href="{% url 'account_reset_password' %}">
+                {% trans "Забыли пароль?" %}
+            </a>
+            <br>
+            <p class="login_register"><a href="{{ signup_url }}">Регистрация</a></p>
+        </form>
+    </div>
+</section>
+
+
+{% endblock content %}
